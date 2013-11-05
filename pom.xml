@@ -4,9 +4,9 @@
          xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
     <modelVersion>4.0.0</modelVersion>
-    <groupId>com.zhangwenan</groupId>
-    <artifactId>utao</artifactId>
-    <name>My Simple Webx Application</name>
+    <groupId>me.aipa</groupId>
+    <artifactId>spam_tools</artifactId>
+    <name>推广平台</name>
     <packaging>war</packaging>
     <version>1.0</version>
     <properties>

@@ -10,9 +10,9 @@
 
     <bean id="dataSource" class="com.jolbox.bonecp.BoneCPDataSource" destroy-method="close">
         <property name="driverClass" value="com.mysql.jdbc.Driver" />
-        <property name="jdbcUrl" value="${utao.mysql.url}" />
-        <property name="username" value="${utao.mysql.user}"/>
-        <property name="password" value="${utao.mysql.pass}"/>
+        <property name="jdbcUrl" value="${spam.mysql.url}" />
+        <property name="username" value="${spam.mysql.user}"/>
+        <property name="password" value="${spam.mysql.pass}"/>
         <property name="idleConnectionTestPeriodInSeconds" value="14400"/>
         <property name="idleMaxAgeInSeconds" value="3600"/>
         <property name="maxConnectionsPerPartition" value="15"/>
@@ -25,16 +25,16 @@
 
     <bean id="sqlSessionFactory" class="org.mybatis.spring.SqlSessionFactoryBean">
         <property name="dataSource" ref="dataSource" />
-        <property name="mapperLocations" value="/WEB-INF/app1/sqlmap/*.xml" />
-        <property name="configLocation" value="/WEB-INF/app1/mybatis-config.xml" />
+        <property name="mapperLocations" value="/WEB-INF/spam/sqlmap/*.xml" />
+        <property name="configLocation" value="/WEB-INF/spam/mybatis-config.xml" />
     </bean>
 
     <bean id="sqlSession" class="org.mybatis.spring.SqlSessionTemplate">
         <constructor-arg index="0" ref="sqlSessionFactory" />
     </bean>
 
-    <bean id="adminService" class="com.zhangwenan.app1.service.impl.AdminServiceImpl"></bean>
-    <bean id="keywordService" class="com.zhangwenan.app1.service.impl.KeywordServiceImpl"></bean>
-    <bean id="sysConfigService" class="com.zhangwenan.app1.service.impl.SysConfigServiceImpl"></bean>
-    <bean id="siteConfigService" class="com.zhangwenan.app1.service.impl.SiteConfigServicImpl"></bean>
+    <bean id="adminService" class="me.aipa.spam.service.impl.AdminServiceImpl"></bean>
+    <bean id="keywordService" class="me.aipa.spam.service.impl.KeywordServiceImpl"></bean>
+    <bean id="sysConfigService" class="me.aipa.spam.service.impl.SysConfigServiceImpl"></bean>
+    <bean id="siteConfigService" class="me.aipa.spam.service.impl.SiteConfigServicImpl"></bean>
 </beans>

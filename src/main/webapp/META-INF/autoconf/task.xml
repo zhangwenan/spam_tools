@@ -38,5 +38,5 @@
         </property>
     </bean>
 
-    <bean id="resetTask" class="com.zhangwenan.app1.bean.ResetTask" />
+    <bean id="resetTask" class="me.aipa.spam.bean.ResetTask" />
 </beans>

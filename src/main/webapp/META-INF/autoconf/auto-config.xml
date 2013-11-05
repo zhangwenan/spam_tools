@@ -5,16 +5,16 @@
 
 
 
-        <property name="utao.mysql.url"     defaultValue="jdbc:mysql://127.0.0.1/baiwantaoke_utao" description="mysql数据库地址" />
-        <property name="utao.mysql.user"    defaultValue="root" description="mysql数据库的用户名"/>
-        <property name="utao.mysql.pass"    defaultValue="Zhang3o38" description="mysql数据库的密码"/>
+        <property name="spam.mysql.url"     defaultValue="jdbc:mysql://127.0.0.1/spam_tools" description="mysql数据库地址" />
+        <property name="spam.mysql.user"    defaultValue="root" description="mysql数据库的用户名"/>
+        <property name="spam.mysql.pass"    defaultValue="Zhang3o38" description="mysql数据库的密码"/>
 
 
 
-        <property name="utao.logging.path"           defaultValue="D:\home\admin\utao"  description="love日志输出基本目录"/>
-        <property name="utao.logging.root"           defaultValue="${utao.logging.path}\logs" description="love日志输出下级目录"/>
-        <property name="utao.logging.level"          defaultValue="info"   description="love日志输出级别"/>
-        <property name="utao.logging.charset"        defaultValue="UTF-8"  description="love日志输出编码"/>
+        <property name="spam.logging.path"           defaultValue="D:\home\admin\spam_tools"  description="love日志输出基本目录"/>
+        <property name="spam.logging.root"           defaultValue="${spam.logging.path}\logs" description="love日志输出下级目录"/>
+        <property name="spam.logging.level"          defaultValue="info"   description="love日志输出级别"/>
+        <property name="spam.logging.charset"        defaultValue="UTF-8"  description="love日志输出编码"/>
 
 
     </group>
@@ -23,8 +23,8 @@
         <generate template="WEB-INF/common/resources.xml" />-->
         <generate template="web.xml" destfile="WEB-INF/web.xml" charset="UTF-8" />
         <generate template="logback.xml" destfile="WEB-INF/logback.xml" charset="UTF-8" />
-        <generate template="datasource.xml" destfile="WEB-INF/app1/datasource.xml" charset="UTF-8" />
-        <generate template="task.xml" destfile="WEB-INF/app1/task.xml" charset="UTF-8" />
+        <generate template="datasource.xml" destfile="WEB-INF/spam/datasource.xml" charset="UTF-8" />
+        <generate template="task.xml" destfile="WEB-INF/spam/task.xml" charset="UTF-8" />
 
     </script>
 </config>

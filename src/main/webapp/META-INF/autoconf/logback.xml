@@ -4,8 +4,8 @@
     <!--ConsoleAppender-->
     <appender name="STDOUT" class="ch.qos.logback.core.FileAppender">
         <target>System.out</target>
-        <encoding>${utao.logging.charset}</encoding>
-        <file>${utao.logging.root}/utao.log</file>
+        <encoding>${spam.logging.charset}</encoding>
+        <file>${spam.logging.root}/spam.log</file>
         <filter class="com.alibaba.citrus.logconfig.logback.LevelRangeFilter">
             <levelMax>INFO</levelMax>
         </filter>
@@ -18,8 +18,8 @@
 
     <appender name="STDERR" class="ch.qos.logback.core.FileAppender">
         <target>System.err</target>
-        <encoding>${utao.logging.charset}</encoding>
-        <file>${utao.logging.root}/utao.log</file>
+        <encoding>${spam.logging.charset}</encoding>
+        <file>${spam.logging.root}/spam.log</file>
         <filter class="com.alibaba.citrus.logconfig.logback.LevelRangeFilter">
             <levelMin>WARN</levelMin>
         </filter>
@@ -43,7 +43,7 @@
     </logger>
 
     <root>
-        <level value="${utao.logging.level}" />
+        <level value="${spam.logging.level}" />
         <appender-ref ref="STDERR" />
         <appender-ref ref="STDOUT" />
     </root>

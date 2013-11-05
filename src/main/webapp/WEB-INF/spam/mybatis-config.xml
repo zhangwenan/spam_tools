@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE configuration
+        PUBLIC "-//mybatis.org//DTD Config 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-config.dtd">
+<configuration>
+    <!--<environments default="development">-->
+        <!--<environment id="development">-->
+            <!--<transactionManager type="JDBC"/>-->
+            <!--<dataSource type="POOLED">-->
+                <!--<property name="driver" value="${driver}"/>-->
+                <!--<property name="url" value="${url}"/>-->
+                <!--<property name="username" value="${username}"/>-->
+                <!--<property name="password" value="${password}"/>-->
+            <!--</dataSource>-->
+        <!--</environment>-->
+    <!--</environments>-->
+    <!---->
+    <!--<mappers>-->
+        <!--<mapper resource="org/mybatis/example/BlogMapper.xml"/>-->
+    <!--</mappers>-->
+
+    <typeAliases>
+        <typeAlias type="me.aipa.spam.bean.Admin" alias="Admin" />
+        <typeAlias type="me.aipa.spam.bean.Keyword" alias="Keyword" />
+        <typeAlias type="me.aipa.spam.bean.SysConfig" alias="SysConfig" />
+        <typeAlias type="me.aipa.spam.bean.SiteConfig" alias="SiteConfig" />
+        <typeAlias type="me.aipa.spam.bean.ParamterMap" alias="ParamterMap" />
+        <typeAlias type="me.aipa.spam.bean.ParamterMap" alias="ParamterMap" />
+    </typeAliases>
+</configuration>
