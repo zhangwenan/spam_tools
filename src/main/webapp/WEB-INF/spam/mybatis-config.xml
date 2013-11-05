@@ -20,11 +20,7 @@
     <!--</mappers>-->
 
     <typeAliases>
-        <typeAlias type="me.aipa.spam.bean.Admin" alias="Admin" />
-        <typeAlias type="me.aipa.spam.bean.Keyword" alias="Keyword" />
-        <typeAlias type="me.aipa.spam.bean.SysConfig" alias="SysConfig" />
-        <typeAlias type="me.aipa.spam.bean.SiteConfig" alias="SiteConfig" />
-        <typeAlias type="me.aipa.spam.bean.ParamterMap" alias="ParamterMap" />
-        <typeAlias type="me.aipa.spam.bean.ParamterMap" alias="ParamterMap" />
+        <!--<typeAlias type="me.aipa.spam.bean.Admin" alias="Admin" />-->
+
     </typeAliases>
 </configuration>

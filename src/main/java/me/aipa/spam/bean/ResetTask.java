@@ -15,14 +15,14 @@ import java.util.Date;
  */
 public class ResetTask {
 
-    @Autowired
-    SiteConfigService siteConfigService;
-
-    @Autowired
-    KeywordService keywordService;
+//    @Autowired
+//    SiteConfigService siteConfigService;
+//
+//    @Autowired
+//    KeywordService keywordService;
 
     public void resetIndexStatus(){
-        SiteConfig siteConfig = siteConfigService.getConfigByServerName("spam.aipa.me");
+        /*SiteConfig siteConfig = siteConfigService.getConfigByServerName("spam.aipa.me");
         siteConfig.setLastUpdatedTime(new Date());
         int indexKeywordsLength = 300;
         ParamterMap paramterMap = new ParamterMap(siteConfig.getLastUpdatedId(), indexKeywordsLength);
@@ -32,6 +32,6 @@ public class ResetTask {
         else{
             siteConfig.setLastUpdatedId(1);
         }
-        siteConfigService.updateConfig(siteConfig);
+        siteConfigService.updateConfig(siteConfig);*/
     }
 }

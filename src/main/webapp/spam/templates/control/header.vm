@@ -1,3 +1,46 @@
+<title> BUI 管理系统</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+
+#if($!pageId == "main")
+
+<link href="/assets/css/main-min.css" rel="stylesheet" type="text/css" />
+<link href="/assets/css/dpl-min.css" rel="stylesheet" type="text/css" />
+<link href="/assets/css/bui-min.css" rel="stylesheet" type="text/css" />
+
+#elseif($!pageId == "code")
+
+<link href="/assets/css/dpl-min.css" rel="stylesheet" type="text/css" />
+<link href="/assets/css/bui-min.css" rel="stylesheet" type="text/css" />
+<link href="/assets/css/page-min.css" rel="stylesheet" type="text/css" />   <!-- 下面的样式，仅是为了显示代码，而不应该在项目中使用-->
+<link href="/assets/css/prettify.css" rel="stylesheet" type="text/css" />
+<style type="text/css">
+    code {
+        padding: 0px 4px;
+        color: #d14;
+        background-color: #f7f7f9;
+        border: 1px solid #e1e1e8;
+    }
+</style>
+
+
+
+#elseif($!pageId == "menu")
+<title> 顶部导航</title>
+<link href="/assets/css/page-min.css" rel="stylesheet" type="text/css" />   <!-- 下面的样式，仅是为了显示代码，而不应该在项目中使用-->
+<link href="/assets/css/prettify.css" rel="stylesheet" type="text/css" />
+<style type="text/css">
+    code {
+        padding: 0px 4px;
+        color: #d14;
+        background-color: #f7f7f9;
+        border: 1px solid #e1e1e8;
+    }
+</style>
+#end
+
+
+
+#*
 <div class="t1">
     <div class='mtitle'>
     ## 杭州窗帘,布艺窗帘,别墅窗帘,酒店窗帘-腾川布老虎窗帘官网欢迎您使用淘宝网购物流程查询系统！
@@ -34,4 +77,4 @@
     <script>echo(link);</script>
     <a href="http://www.hzbulaohu.cn/" class="more">更多</a>
 </div>
-<!--/Box-->
+<!--/Box-->*#

@@ -33,8 +33,8 @@
         <constructor-arg index="0" ref="sqlSessionFactory" />
     </bean>
 
-    <bean id="adminService" class="me.aipa.spam.service.impl.AdminServiceImpl"></bean>
-    <bean id="keywordService" class="me.aipa.spam.service.impl.KeywordServiceImpl"></bean>
-    <bean id="sysConfigService" class="me.aipa.spam.service.impl.SysConfigServiceImpl"></bean>
-    <bean id="siteConfigService" class="me.aipa.spam.service.impl.SiteConfigServicImpl"></bean>
+    <!--<bean id="adminService" class="me.aipa.spam.service.impl.AdminServiceImpl"></bean>-->
+    <!--<bean id="keywordService" class="me.aipa.spam.service.impl.KeywordServiceImpl"></bean>-->
+    <!--<bean id="sysConfigService" class="me.aipa.spam.service.impl.SysConfigServiceImpl"></bean>-->
+    <!--<bean id="siteConfigService" class="me.aipa.spam.service.impl.SiteConfigServicImpl"></bean>-->
 </beans>

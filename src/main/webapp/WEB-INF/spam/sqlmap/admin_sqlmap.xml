@@ -4,18 +4,10 @@
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="AdminMapper">
 
-    <resultMap type="me.aipa.spam.bean.Admin" id="adminMapper">
-        <id column="id" property="id"/>
-        <result column="username" property="userName"/>
-        <result column="password" property="password"/>
-        <result column="salt" property="salt"/>
-    </resultMap>
-
-    <select id="getAdminById" parameterType="int" resultMap="adminMapper">
-        select * from admin where id = #{id}
-    </select>
-
-    <select id="getAdmin" parameterType="Admin" resultMap="adminMapper">
-        select * from admin where username = #{userName}
-    </select>
+    <!--<resultMap type="me.aipa.spam.bean.Admin" id="adminMapper">-->
+        <!--<id column="id" property="id"/>-->
+        <!--<result column="username" property="userName"/>-->
+        <!--<result column="password" property="password"/>-->
+        <!--<result column="salt" property="salt"/>-->
+    <!--</resultMap>    -->
 </mapper>

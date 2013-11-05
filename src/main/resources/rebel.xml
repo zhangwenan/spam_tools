@@ -2,13 +2,13 @@
 <application xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://www.zeroturnaround.com" xsi:schemaLocation="http://www.zeroturnaround.com http://www.zeroturnaround.com/alderaan/rebel-2_0.xsd">
 
 	<classpath>
-		<dir name="D:/works_own/com.zhangwenan/utao_me/target/classes">
+		<dir name="D:/GitHub_Repository/spam_tools/target/classes">
 		</dir>
 	</classpath>
 
 	<web>
 		<link target="/">
-			<dir name="D:/works_own/com.zhangwenan/utao_me/src/main/webapp">
+			<dir name="D:/GitHub_Repository/spam_tools/src/main/webapp">
 			</dir>
 		</link>
 	</web>

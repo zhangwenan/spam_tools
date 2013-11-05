@@ -273,15 +273,7 @@
                     <argLine>-Xmx256m</argLine>
                 </configuration>
             </plugin>
-            <plugin>
-                <artifactId>maven-eclipse-plugin</artifactId>
-                <configuration>
-                    <downloadSources>true</downloadSources>
-                    <classpathContainers>
-                        <classpathContainer>org.eclipse.jdt.launching.JRE_CONTAINER</classpathContainer>
-                    </classpathContainers>
-                </configuration>
-            </plugin>
+
             <plugin>
                 <artifactId>maven-source-plugin</artifactId>
                 <executions>
@@ -293,33 +285,7 @@
                     </execution>
                 </executions>
             </plugin>
-            <plugin>
-                <groupId>org.eclipse.jetty</groupId>
-                <artifactId>jetty-maven-plugin</artifactId>
-                <configuration>
-                    <webApp>
-                        <contextPath>/</contextPath>
-                    </webApp>
-                    <stopKey>webx</stopKey>
-                    <stopPort>9999</stopPort>
-                    <httpConnector>
-                        <port>8081</port>
-                    </httpConnector>
-                    <requestLog implementation="org.eclipse.jetty.server.NCSARequestLog">
-                        <filename>target/access.log</filename>
-                        <retainDays>90</retainDays>
-                        <append>false</append>
-                        <extended>false</extended>
-                        <logTimeZone>GMT+8:00</logTimeZone>
-                    </requestLog>
-                    <systemProperties>
-                        <systemProperty>
-                            <name>productionMode</name>
-                            <value>${productionMode}</value>
-                        </systemProperty>
-                    </systemProperties>
-                </configuration>
-            </plugin>
+
             <plugin>
                 <groupId>com.alibaba.citrus.tool</groupId>
                 <artifactId>springext-maven-plugin</artifactId>
