@@ -1,0 +1,31 @@
+DROP TABLE IF EXISTS `sys_config`;
+CREATE TABLE `sys_config` (
+  `id` int(4) NOT NULL AUTO_INCREMENT COMMENT '自增长id',
+  `name` varchar(30) NOT NULL UNIQUE DEFAULT '' COMMENT '配置项名称',
+  `value` varchar(50) NOT NULL DEFAULT '' COMMENT '配置项的值',
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='系统配置';
+
+
+
+DROP TABLE IF EXISTS `site_config`;
+CREATE TABLE `site_config` (
+  `id` int(4) NOT NULL AUTO_INCREMENT COMMENT '自增长id',
+  `domain` varchar(100) NOT NULL UNIQUE DEFAULT '' COMMENT '一级域名',
+  `site_name` varchar(200) NOT NULL DEFAULT '' COMMENT '网站名称',
+  `list_title_template` varchar(250) NOT NULL DEFAULT '' COMMENT '列表页标题的模板',
+  `list_desc_template` varchar(250) NOT NULL DEFAULT '' COMMENT '列表页描述的模板',
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='系统配置';
+
+
+
+ALTER TABLE site_config ADD site_desc varchar(300) NOT NULL DEFAULT '' COMMENT'网站描述';
+
+ALTER TABLE site_config ADD last_updated_time datetime DEFAULT NULL COMMENT'网站描述';
+UPDATE site_config SET last_updated_time=now();
+
+ALTER TABLE site_config ADD last_updated_id int(4) NOT NULL DEFAULT 1 COMMENT'上次更新的id';
+
+
+INSERT INTO site_config (id,domain,site_name,list_title_template,list_desc_template) VALUE (1,'utao.me','优淘网','{{ id }}','{{ id }}');

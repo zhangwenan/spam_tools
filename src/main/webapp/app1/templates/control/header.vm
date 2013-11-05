@@ -1,0 +1,37 @@
+<div class="t1">
+    <div class='mtitle'>
+    ## 杭州窗帘,布艺窗帘,别墅窗帘,酒店窗帘-腾川布老虎窗帘官网欢迎您使用淘宝网购物流程查询系统！
+        <strong>$!siteDesc</strong>
+    </div>
+</div>
+
+<div class="t2">
+    <div class="logo"></div>
+    <div class="title"><H1>精品购物指南</H1></div>
+    <div class='search'>
+        <script type="text/javascript">
+            var tb = '女装';
+            alimama_pid = "mm_33102670_4164806_13574204";
+            alimama_type = "g";
+            alimama_tks = {};
+            alimama_tks.style_i = 1;
+            alimama_tks.lg_i = 0;
+            alimama_tks.w_i = "350";
+            alimama_tks.h_i = 45;
+            alimama_tks.btn_i = 1;
+            alimama_tks.txt_s = tb;
+            alimama_tks.hot_i = 0;
+            alimama_tks.hc_c = "0065FF";
+            alimama_tks.cid_i = 0;
+            alimama_tks.c_i = 0;
+        </script>
+        <script type="text/javascript" src="http://a.alimama.cn/inf.js"></script>
+    </div>
+</div>
+<!--栏目导航开始-->
+<div class="menu">
+    <a href="http://www.hzbulaohu.cn/">网站首页</a>
+    <script>echo(link);</script>
+    <a href="http://www.hzbulaohu.cn/" class="more">更多</a>
+</div>
+<!--/Box-->

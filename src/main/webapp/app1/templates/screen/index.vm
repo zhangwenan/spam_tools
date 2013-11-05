@@ -1,0 +1,27 @@
+##$page.setTitle("It works.")
+###set($url = "$app1Link.setTarget('simple/count.do').addQueryData('to', 10)")
+
+##<div>
+##    Admin：$admin.salt
+##    域名:$request.serverName
+##    :$request.localName
+##    本站IP:$request.localAddr
+##    系统配置：$index_start_from <br />
+##    prev:$prevIdList <br />
+##    next:$nextIdList
+##</div>
+<!-- 广告位-->
+<div class="list cb db" style='height:95px;margin-top:13px'>
+    <a href="http://s.click.taobao.com/t_9?p=mm_18776918_0_0&l=http%3A%2F%2Fwww.tmall.com" rel="nofollow">
+        <img src="http://www.jinhuoji.com/tmhd/950-90.jpg" width="960" height="95" />
+    </a>
+</div>
+
+<div class="xiangguan cb db" style='text-align:center'>
+    <h4>$!siteName 最后更新时间:$!lastUpdatedTime</h4>
+    <ul>
+        #foreach($keyword in $indexKeywordList)
+            <li><a href="/${keyword.alias}/">${keyword.name}</a></li>
+        #end
+    </ul>
+</div>
