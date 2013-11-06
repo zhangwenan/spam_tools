@@ -20,7 +20,7 @@
     <!--</mappers>-->
 
     <typeAliases>
-        <!--<typeAlias type="me.aipa.spam.bean.Admin" alias="Admin" />-->
+        <typeAlias type="me.aipa.spam.bean.QQAccount" alias="QQAccount" />
 
     </typeAliases>
 </configuration>

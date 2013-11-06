@@ -6,7 +6,7 @@
     <modelVersion>4.0.0</modelVersion>
     <groupId>me.aipa</groupId>
     <artifactId>spam_tools</artifactId>
-    <name>推广平台</name>
+    <name>spam_tools</name>
     <packaging>war</packaging>
     <version>1.0</version>
     <properties>
@@ -201,6 +201,12 @@
                 <groupId>org.freemarker</groupId>
                 <artifactId>freemarker</artifactId>
                 <version>2.3.20</version>
+            </dependency>
+
+            <dependency>
+                <groupId>com.alibaba</groupId>
+                <artifactId>fastjson</artifactId>
+                <version>1.1.26</version>
             </dependency>
 
         </dependencies>

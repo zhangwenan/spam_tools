@@ -58,6 +58,7 @@
 
             <!-- Velocity -->
             <mapping extension="htm" to="" />
+            <mapping extension="html" to="" />
             <mapping extension="vhtml" to="" />
             <mapping extension="vm" to="" />
         </mapping-rules:extension-rule>

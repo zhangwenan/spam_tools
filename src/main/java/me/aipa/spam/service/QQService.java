@@ -2,6 +2,8 @@ package me.aipa.spam.service;
 
 import me.aipa.spam.bean.QQAccount;
 
+import java.util.List;
+
 /**
  * Created with IntelliJ IDEA.
  * User: wenlie
@@ -59,4 +61,12 @@ public interface QQService {
      * @return
      */
     QQAccount getQQByQQNumber(String qqNumber);
+
+
+    /**
+     * 根据页面，获取QQ列表
+     * @param page
+     * @return
+     */
+    List<QQAccount> getQQListByPage(int page, int limit);
 }
