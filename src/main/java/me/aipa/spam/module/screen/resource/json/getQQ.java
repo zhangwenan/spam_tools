@@ -39,7 +39,7 @@ public class getQQ {
         try{
             JSONObject jsonObject = new JSONObject();
             jsonObject.put("rows", qqAccountList);
-            jsonObject.put("results", qqAccountList.size());
+            jsonObject.put("results", qqService.countQQ());
             httpServletResponse.getWriter().write(JSONObject.toJSONString(jsonObject));
         }
         catch (IOException e){

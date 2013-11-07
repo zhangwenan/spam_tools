@@ -3,18 +3,21 @@
         <form id="searchForm" class="form-horizontal span24">
             <div class="row">
                 <div class="control-group span8">
-                    <label class="control-label">QQ号码：</label>
+                    <label class="control-label">编号：</label>
                     <div class="controls">
                         <input type="text" class="control-text" name="id">
                     </div>
                 </div>
-                #*<div class="control-group span8">
-                    <label class="control-label">学生姓名：</label>
+                <div class="control-group span8">
+                    <label class="control-label">QQ号码：</label>
                     <div class="controls">
-                        <input type="text" class="control-text" name="stuName">
+                        <input type="text" class="control-text" name="qq">
                     </div>
                 </div>
-                <div class="control-group span8">
+                <div class="span3 offset3">
+                    <button  type="button" id="btnSearch" class="button button-primary">搜索</button>
+                </div>
+                #*<div class="control-group span8">
                     <label class="control-label">性别：</label>
                     <div class="controls" >
                         <select name="" id="" name="sex">
@@ -24,17 +27,17 @@
                     </div>
                 </div>*#
             </div>
-            <div class="row">
-                #*<div class="control-group span9">
+            #*<div class="row">
+                <div class="control-group span9">
                     <label class="control-label">入学时间：</label>
                     <div class="controls">
                         <input type="text" class=" calendar" name="startDate"><span> - </span><input name="endDate" type="text" class=" calendar">
                     </div>
-                </div>*#
-                <div class="span3 offset3">
+                </div>
+                <div class="span3 offset2">
                     <button  type="button" id="btnSearch" class="button button-primary">搜索</button>
                 </div>
-            </div>
+            </div>*#
         </form>
     </div>
     <div class="search-grid-container">
@@ -43,16 +46,16 @@
 
 </div>
 <div id="content" class="hide">
-    <form id="J_Form" class="form-horizontal" action="../data/edit.php?a=1">
+    <form id="J_Form" class="form-horizontal" action="/resource/json/editQQ.do?a=1">
         <input type="hidden" name="a" value="3">
         <div class="row">
             <div class="control-group span8">
-                <label class="control-label"><s>*</s>学生姓名</label>
+                <label class="control-label"><s>*</s>编号</label>
                 <div class="controls">
-                    <input name="name" type="text" data-rules="{required:true}" class="input-normal control-text">
+                    <input name="id" type="text" data-rules="{required:false}" class="input-normal control-text">
                 </div>
             </div>
-            <div class="control-group span8">
+            #*<div class="control-group span8">
                 <label class="control-label"><s>*</s>学生性别：</label>
                 <div class="controls">
                     <select  data-rules="{required:true}"  name="sex" class="input-normal">
@@ -61,36 +64,45 @@
                         <option value="0">女</option>
                     </select>
                 </div>
-            </div>
+            </div>*#
         </div>
         <div class="row">
             <div class="control-group span8">
-                <label class="control-label"><s>*</s>学生班级</label>
+                <label class="control-label"><s>*</s>QQ号</label>
                 <div class="controls">
-                    <input name="name" type="grade" data-rules="{required:true}" class="input-normal control-text">
+                    <input name="qq" type="grade" data-rules="{required:true}" class="input-normal control-text">
                 </div>
             </div>
-            <div class="control-group span8">
-                <label class="control-label"><s>*</s>生日</label>
+            #*<div class="control-group span8">
+                <label class="control-label"><s>*</s>QQ密码</label>
                 <div class="controls">
-                    <input name="birthday" type="text" data-rules="{required:true}" class="calendar">
+                    <input name="password" type="text" data-rules="{required:true}" class="input-normal control-text">
                 </div>
-            </div>
+            </div>*#
 
         </div>
         <div class="row">
-            <div class="control-group span15">
+            <div class="control-group span8">
+                <label class="control-label"><s>*</s>QQ密码</label>
+                <div class="controls">
+                    <input name="password" type="text" data-rules="{required:true}" class="input-normal control-text">
+                </div>
+            </div>
+            #*<div class="control-group span15">
                 <label class="control-label">学生家庭住址</label>
                 <div class="controls control-row4">
                     <textarea name="address" class="input-large" type="text"></textarea>
                 </div>
-            </div>
+            </div>*#
         </div>
     </form>
 </div>
-<script type="text/javascript" src="/assets/js/jquery-1.8.1.min.js"></script>
-<script type="text/javascript" src="/assets/js/bui.js"></script>
-<script type="text/javascript" src="/assets/js/config-min.js"></script>
+<script type="text/javascript" src="../assets/js/jquery-1.8.1.min.js"></script>
+<script type="text/javascript" src="../assets/js/bui.js"></script>
+<!--
+ <script type="text/javascript" src="http://localhost/works/bui/assets/js/build/seed-min.js"></script>
+-->
+<script type="text/javascript" src="../assets/js/config-min.js"></script>
 <script type="text/javascript">
     BUI.use('common/page');
 </script>
@@ -98,14 +110,12 @@
 <script type="text/javascript">
     BUI.use('common/search',function (Search) {
 
-        var enumObj =
-                {"1":"男","0":"女"},
+        var enumObj = {"1":"男","0":"女"},
                 editing = new BUI.Grid.Plugins.DialogEditing({
                     contentId : 'content', //设置隐藏的Dialog内容
                     triggerCls : 'btn-edit', //触发显示Dialog的样式
                     editor : {
                         success : function(){ //点击确认的时候触发，可以进行异步提交
-                            /**/
                             var editor = this,
                                     record = editing.get('record'), // 获取编辑的记录
                                     data = editor.getValue(); //编辑完成的记录
@@ -121,45 +131,43 @@
                 }),
                 columns = [
                     {
-                        title:'QQ编号',
+                        title:'编号',
                         dataIndex:'id',
                         width:80,
                         renderer:function(v){
                             return Search.createLink({
                                 id : 'detail' + v,
-                                title : 'QQ信息',
+                                title : 'QQ号',
                                 text : v,
-                                href : 'resource/qqDetail.html'
+                                href : 'resource/qqInfo.html'
                             });
                         }
                     },
-                    {title:'QQ号码',dataIndex:'qq',width:100},
-                    {title:'QQ密码',dataIndex:'password',width:100/*,renderer:BUI.Grid.Format.dateRenderer*/},
-//                    {title:'学生性别',dataIndex:'sex',width:60,renderer:BUI.Grid.Format.enumRenderer(enumObj)},
-//                    {title:'学生班级',dataIndex:'grade',width:100},
-//                    {title:'学生家庭住址',dataIndex:'address',width:300},
-                    {
-                        title:'操作',
-                        dataIndex:'',
-                        width:200,
-                        renderer : function(value,obj){
-                            var editStr =  Search.createLink({ // 链接使用此方式
-                                        id : 'edit' + obj.id,
-                                        title : '编辑QQ账号',
-                                        text : '打开编辑',
-                                        href : 'form/example.html'}),
-                                    editStr1 = '<span class="grid-command btn-edit" title="编辑QQ账号">弹出编辑</span>',
-                                    delStr = '<span class="grid-command btn-del" title="删除QQ账号">删除</span>';
-                            //页面操作不需要使用Search.createLink
-
-                            return editStr +  editStr1 + delStr;
+                    {title:'QQ号',dataIndex:'qq',width:100},
+                    {title:'密码',dataIndex:'password',width:100},
+                    /*{title:'学生姓名',dataIndex:'name',width:100},
+                    {title:'生日',dataIndex:'birthday',width:100,renderer:BUI.Grid.Format.dateRenderer},
+                    {title:'学生性别',dataIndex:'sex',width:60,renderer:BUI.Grid.Format.enumRenderer(enumObj)},
+                    {title:'学生班级',dataIndex:'grade',width:100},
+                    {title:'学生家庭住址',dataIndex:'address',width:300},*/
+                    {title:'操作',dataIndex:'',width:200,renderer : function(value,obj){
+                        var editStr =  Search.createLink({ //链接使用 此方式
+                                    id : 'edit' + obj.id,
+                                    title : '编辑QQ号',
+                                    text : '打开编辑',
+                                    href : 'form/example.html'
+                                }),
+                                editStr1 = '<span class="grid-command btn-edit" title="编辑QQ号">弹出编辑</span>',
+                                delStr = '<span class="grid-command btn-del" title="删除QQ号">删除</span>';//页面操作不需要使用Search.createLink
+                        /*return editStr +  editStr1 + delStr;*/
+                        return "";
                     }}
                 ],
                 store = Search.createStore('/resource/json/getQQ.do'),
-                // ?page=1&limit=2
                 gridCfg = Search.createGridCfg(columns,{
                     tbar : {
                         items : [
+                            {text : '<i class="icon-plus"></i>批量新建',btnCls : 'button button-small',handler:addBatchFunction},
                             {text : '<i class="icon-plus"></i>新建',btnCls : 'button button-small',handler:addFunction},
                             {text : '<i class="icon-edit"></i>编辑',btnCls : 'button button-small',handler:function(){alert('编辑');}},
                             {text : '<i class="icon-remove"></i>删除',btnCls : 'button button-small',handler : delFunction}
@@ -176,12 +184,30 @@
 
         function addFunction(){
             var newData = {isNew : true}; //标志是新增加的记录
-            editing.add(newData,'name'); //添加记录后，直接编辑
+            store.addAt(newData,0);
+            editing.edit(newData,'name'); //添加记录后，直接编辑
+        }
+
+        function addBatchFunction(){
+            /*$.ajax({
+                url : '../data/edit.json',
+                dataType : 'json',
+                data : record,
+                success : function(data){
+                    if(data.success){ //编辑、新建成功
+                        editor.accept(); //隐藏弹出框
+                        search.load();
+                    }else{ //编辑失败失败
+                        var msg = data.msg;
+                        BUI.Message.Alert('错误原因:' + msg);
+                    }
+                }
+            });*/
         }
 
         function submit(record,editor){
             $.ajax({
-                url : '../data/edit.json',
+                url : '/resource/json/editQQ.do',
                 dataType : 'json',
                 data : record,
                 success : function(data){

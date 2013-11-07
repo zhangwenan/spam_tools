@@ -12,6 +12,20 @@
 
 
     <select id="getQQList" parameterType="java.util.Map" resultMap="qqAccount">
-        SELECT id,qq,password FROM qq LIMIT #{from},#{limit}
+        SELECT id,qq,password FROM qq ORDER BY id DESC LIMIT #{from},#{limit}
     </select>
+
+    <select id="countQQ" resultType="int">
+        SELECT COUNT(id) FROM qq
+    </select>
+
+    <insert id="addQQ" parameterType="qqAccount">
+        INSERT INTO qq (qq,password)
+        VALUES
+        (
+        #{qq},
+        #{password}
+        )
+    </insert>
+
 </mapper>

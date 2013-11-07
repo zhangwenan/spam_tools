@@ -23,7 +23,8 @@ public class QQServiceImpl implements QQService {
 
     @Override
     public Boolean addQQ(QQAccount qqAccount) {
-        return null;  //To change body of implemented methods use File | Settings | File Templates.
+        sqlSession.insert("QQ.addQQ", qqAccount);
+        return true;
     }
 
     @Override
@@ -57,5 +58,10 @@ public class QQServiceImpl implements QQService {
         map.put("from", (page-1) * limit);
         map.put("limit", limit);
         return sqlSession.selectList("QQ.getQQList", map);
+    }
+
+    @Override
+    public int countQQ() {
+        return sqlSession.selectOne("QQ.countQQ");
     }
 }

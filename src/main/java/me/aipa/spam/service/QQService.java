@@ -69,4 +69,11 @@ public interface QQService {
      * @return
      */
     List<QQAccount> getQQListByPage(int page, int limit);
+
+
+    /**
+     * 统计QQ个数
+     * @return
+     */
+    int countQQ();
 }

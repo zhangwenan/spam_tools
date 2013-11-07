@@ -24,7 +24,7 @@ public class Index {
     HttpServletRequest request;
 
     public void execute(Context context) throws Exception{
-        context.put("pageId", "main");
+        context.put("pageId", "index");
         /*context.put("serverName", request.getServerName());
         SiteConfig siteConfig = siteConfigService.getConfigByServerName(request.getServerName());
         context.put("siteName", siteConfig.getSiteName());

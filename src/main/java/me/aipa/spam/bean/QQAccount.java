@@ -13,6 +13,14 @@ public class QQAccount extends BaseDO{
 
     private String password;
 
+    public QQAccount() {
+    }
+
+    public QQAccount(String qq, String password) {
+        this.qq = qq;
+        this.password = password;
+    }
+
     public String getQq() {
         return qq;
     }
