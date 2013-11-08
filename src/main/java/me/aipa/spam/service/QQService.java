@@ -64,16 +64,19 @@ public interface QQService {
 
 
     /**
-     * 根据页面，获取QQ列表
+     * 根据条件，获取QQ列表
      * @param page
+     * @param limit
+     * @param id
+     * @param qq
      * @return
      */
-    List<QQAccount> getQQListByPage(int page, int limit);
+    List<QQAccount> getQQList(int page, int limit, int id, String qq);
 
 
     /**
      * 统计QQ个数
      * @return
      */
-    int countQQ();
+    int countQQ(int id, String qq);
 }

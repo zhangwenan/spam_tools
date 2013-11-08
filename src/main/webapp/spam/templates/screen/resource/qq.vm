@@ -160,16 +160,16 @@
                                 editStr1 = '<span class="grid-command btn-edit" title="编辑QQ号">弹出编辑</span>',
                                 delStr = '<span class="grid-command btn-del" title="删除QQ号">删除</span>';//页面操作不需要使用Search.createLink
                         /*return editStr +  editStr1 + delStr;*/
-                        return "";
+                        return delStr;
                     }}
                 ],
-                store = Search.createStore('/resource/json/getQQ.do'),
+                store = Search.createStore('/resource/json/qq/getQQ.json'),
                 gridCfg = Search.createGridCfg(columns,{
                     tbar : {
                         items : [
                             {text : '<i class="icon-plus"></i>批量新建',btnCls : 'button button-small',handler:addBatchFunction},
-                            {text : '<i class="icon-plus"></i>新建',btnCls : 'button button-small',handler:addFunction},
-                            {text : '<i class="icon-edit"></i>编辑',btnCls : 'button button-small',handler:function(){alert('编辑');}},
+                            /*{text : '<i class="icon-plus"></i>新建',btnCls : 'button button-small',handler:addFunction},*/
+                            /*{text : '<i class="icon-edit"></i>编辑',btnCls : 'button button-small',handler:function(){alert('编辑');}},*/
                             {text : '<i class="icon-remove"></i>删除',btnCls : 'button button-small',handler : delFunction}
                         ]
                     },
@@ -189,6 +189,47 @@
         }
 
         function addBatchFunction(){
+            var Overlay = BUI.Overlay
+            var dialog = new Overlay.Dialog({
+                title:'批量添加QQ',
+                width:500,
+                height:250,
+                //配置文本
+                bodyContent:'<textarea id="J_QQListInput" placeholder="在这里输入QQ。每行一个QQ账号，如：88306691/123456" style="width:440px; height: 180px"></textarea>',
+                success:function () {
+
+                    var qq_list = {
+                        "qqListStr":$('#J_QQListInput').val()
+                    };
+                    $.ajax({
+                        url : '/resource/json/qq/batchAddQQ.json',
+                        dataType : 'json',
+                        data : qq_list,
+                        success : function(data){
+                            if(data.success){ //编辑、新建成功
+                                dialog.destroy(); //隐藏弹出框
+                                search.load();
+                            }else{ //编辑失败失败
+                                var msg = data.msg;
+                                BUI.Message.Alert('错误原因:' + msg);
+                            }
+                        }
+                    })
+
+                   /* var qq_list = $('#J_QQListInput').val().split('\n');
+                    var qq_objs = [];
+                    for(i=0; i<qq_list.length; i++){
+                        qq_objs.push({
+                            "qq":qq_list[i].split("----")[0],
+                            "password":qq_list[i].split("----")[1]
+                        })
+                    }
+                    alert(qq_objs[0].qq);
+                    alert(qq_objs[0].password);*/
+                    this.close();
+                }
+            });
+            dialog.show();
             /*$.ajax({
                 url : '../data/edit.json',
                 dataType : 'json',
@@ -207,13 +248,15 @@
 
         function submit(record,editor){
             $.ajax({
-                url : '/resource/json/editQQ.do',
+                url : '/resource/json/qq/editQQ.json',
                 dataType : 'json',
                 data : record,
                 success : function(data){
                     if(data.success){ //编辑、新建成功
                         editor.accept(); //隐藏弹出框
+                        alert('b');
                         search.load();
+                        alert('c')
                     }else{ //编辑失败失败
                         var msg = data.msg;
                         BUI.Message.Alert('错误原因:' + msg);
@@ -229,17 +272,22 @@
         }
 
         function delItems(items){
-            var ids = [];
+            /*var ids = [];
             BUI.each(items,function(item){
                 ids.push(item.id);
+            });*/
+            var qq_list = [];
+            BUI.each(items,function(item){
+                qq_list.push(item.qq);
             });
 
-            if(ids.length){
-                BUI.Message.Confirm('确认要删除选中的记录么？',function(){
+            if(qq_list.length){
+                BUI.Message.Confirm('确认要删除选中的QQ么？',function(){
                     $.ajax({
-                        url : '../data/del.php',
+                        // /resource/json/qq/delQQ.json
+                        url : '/resource/json/qq/delQQ.json',
                         dataType : 'json',
-                        data : {ids : ids},
+                        data : {"qqNumber" : qq_list.toString()},
                         success : function(data){
                             if(data.success){ //删除成功
                                 search.load();

@@ -1,5 +1,4 @@
 // QQ账号的表结构
-
 DROP TABLE IF EXISTS `qq`;
 CREATE TABLE `qq` (
   `id` int(4) NOT NULL AUTO_INCREMENT COMMENT '自增长id',
@@ -9,6 +8,18 @@ CREATE TABLE `qq` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='存储自己掌握的QQ账号';
 
 
+
+
+
+// 百度账号
+DROP TABLE IF EXISTS `baidu_account`;
+CREATE TABLE `baidu_account` (
+  `id` int(4) NOT NULL AUTO_INCREMENT COMMENT '自增长id',
+  `user_name` varchar(40) NOT NULL UNIQUE COMMENT '账号',
+  `password` varchar(20) NOT NULL COMMENT '密码',
+  `status` enum('undisplay','display') DEFAULT 'display' COMMENT '状态',
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='百度账号';
 
 
 

@@ -34,7 +34,8 @@ public class QQServiceImpl implements QQService {
 
     @Override
     public Boolean delQQByQQNumber(String qqNumber) {
-        return null;  //To change body of implemented methods use File | Settings | File Templates.
+        sqlSession.delete("QQ.delQQByQQNumber", qqNumber);
+        return Boolean.TRUE;
     }
 
     @Override
@@ -53,15 +54,21 @@ public class QQServiceImpl implements QQService {
     }
 
     @Override
-    public List<QQAccount> getQQListByPage(int page, int limit) {
-        Map < String, Integer> map = new HashMap<String, Integer>();
+    public List<QQAccount> getQQList(int page, int limit, int id, String qq) {
+        Map < String, Object> map = new HashMap<String, Object>();
         map.put("from", (page-1) * limit);
         map.put("limit", limit);
+        map.put("id", id);
+        map.put("qq", qq);
+
         return sqlSession.selectList("QQ.getQQList", map);
     }
 
     @Override
-    public int countQQ() {
-        return sqlSession.selectOne("QQ.countQQ");
+    public int countQQ(int id, String qq) {
+        Map < String, Object> map = new HashMap<String, Object>();
+        map.put("id", id);
+        map.put("qq", qq);
+        return sqlSession.selectOne("QQ.countQQ", map);
     }
 }
