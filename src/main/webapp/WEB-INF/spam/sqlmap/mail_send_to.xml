@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="MailSendToMapper">
+    <resultMap id="MailSendToMapper" type="me.aipa.spam.bean.MailSendToDO">
+        <id column="id" property="id"/>
+        <result column="address" property="address"/>
+        <result column="success_count" property="successCount"/>
+        <result column="fail_count" property="failCount"/>
+        <result column="last_time" property="lastTime"/>
+        <result column="del" property="del"/>
+    </resultMap>
+
+    <select id="getMailSendToList" resultMap="MailSendToMapper">
+        SELECT id,address,success_count,fail_count,last_time,del FROM mail_send_to WHERE del =0 ORDER BY id DESC LIMIT #{num}
+    </select>
+    <select id="getMailSendToCount" resultType="int">
+        SELECT COUNT(id) FROM mail_send_to WHERE del =0
+    </select>
+    <select id="getMailSendToListRand" resultMap="MailSendToMapper">
+        SELECT  id,address,success_count,fail_count,last_time,del FROM mail_send_to WHERE del=0 ORDER BY rand() LIMIT #{num}
+    </select>
+    <select id="getMailSendToByAddress" resultMap="MailSendToMapper">
+        SELECT   id,address,success_count,fail_count,last_time,del FROM mail_send_to WHERE address LIKE #{address} AND del=0
+    </select>
+    <select id="checkMailSendToAddressRepeat" resultType="int">
+        SELECT COUNT(id) FROM mail_send_to where address = #{address} and del=0
+    </select>
+    <update id="delMailSendToById" parameterType="me.aipa.spam.bean.MailSendToDO">
+        UPDATE mail_send_to SET del=1 WHERE id=#{id}
+    </update>
+    <update id="updateMailSendToById" parameterType="me.aipa.spam.bean.MailSendToDO">
+        UPDATE mail_send_to SET address=#{address} WHERE id=#{id}
+    </update>
+   <insert id="insertMailSendTo" parameterType="me.aipa.spam.bean.MailSendToDO">
+      INSERT INTO mail_send_to (
+                                                  address
+                                                  ,success_count
+                                                  ,fail_count
+                                                  )
+      VALUES
+                                                  (
+                                                  #{address}
+                                                  ,0
+                                                  ,0
+                                                  )
+   </insert>
+
+
+</mapper>

@@ -1,0 +1,237 @@
+<div class="container">
+    <div class="row">
+        <form id="sendAddressAdd" class="form-horizontal">
+            <div class="row">
+                <div class="control-group span6">
+                    <label class="control-label">新增发件箱：</label>
+                    <div class="controls">
+                        <input type="text" class="control-text span3" name="address" data-rules="{email:true}" />
+                    </div>
+                </div>
+                <div class="control-group span6">
+                    <label class="control-label">帐号：</label>
+                    <div class="controls">
+                        <input type="text" class="control-text span3" name="userName">
+                    </div>
+                </div>
+                <div class="control-group span6">
+                    <label class="control-label">密码：</label>
+                    <div class="controls">
+                        <input type="text" class="control-text span3" name="pass">
+                    </div>
+                </div>
+                <div class="control-group span6">
+                    <label class="control-label">服务器地址：</label>
+                    <div class="controls">
+                        <input type="text" class="control-text span3" name="host">
+                    </div>
+                </div>
+                <div class="span2">
+                    <button type="button" class="button button-small button-primary">添加</button>
+                </div>
+            </div>
+        </form>
+    </div>
+    <div id="sendFromEdit" class="hide">
+        <form id="J_Form" class="form-horizontal">
+            <div class="row">
+                <div class="control-group span8">
+                    <label class="control-label"><s>*</s>发件邮箱</label>
+                    <div class="controls">
+                        <input name="address" type="text" data-rules="{required:false}" class="input-normal control-text">
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="control-group span8">
+                    <label class="control-label"><s>*</s>帐号</label>
+                    <div class="controls">
+                        <input name="userName" type="grade" data-rules="{required:true}" class="input-normal control-text">
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="control-group span8">
+                    <label class="control-label"><s>*</s>密码</label>
+                    <div class="controls">
+                        <input name="pass" type="text" data-rules="{required:true}" class="input-normal control-text">
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="control-group span8">
+                    <label class="control-label"><s>*</s>服务器地址</label>
+                    <div class="controls">
+                        <input name="host" type="text" data-rules="{required:true}" class="input-normal control-text">
+                    </div>
+                </div>
+            </div>
+        </form>
+    </div>
+    <div class="search-grid-container">
+        <div id="grid"></div>
+    </div>
+</div>
+<script type="text/javascript" src="../assets/js/jquery-1.8.1.min.js"></script>
+<script type="text/javascript" src="../assets/js/bui-min.js"></script>
+<script type="text/javascript" src="../assets/js/config-min.js"></script>
+<script type="text/javascript">
+    BUI.use('common/page');
+</script>
+<script type="text/javascript">
+    BUI.use(['common/search','common/page'],function (Search) {
+        var      editing = new BUI.Grid.Plugins.DialogEditing({
+                    contentId : 'sendFromEdit', //设置隐藏的Dialog内容
+                    triggerCls : 'btn-edit', //触发显示Dialog的样式
+                    editor : {
+                        success : function(){ //点击确认的时候触发，可以进行异步提交
+                            var editor = this,
+                                    record = editing.get('record'), // 获取编辑的记录
+                                    data = editor.getValue(); //编辑完成的记录
+                            editor.valid();
+                            if(editor.isValid()){
+                                 sendFromAddressEditSaveSub(BUI.mix(record,data),editor);
+                            }
+                            /*var form = $('#J_Form'); //也可以直接使用表单同步提交的方式
+                            form.submit();
+                            */
+                        }
+                    }
+                }),
+                columns = [
+                    {title:'发件邮箱',dataIndex:'address',width:200},
+                    {title:'用户名',dataIndex:'userName',width:200},
+                    {title:'密码',dataIndex:'pass',width:200},
+                    {title:'服务器地址',dataIndex:'host',width:200},
+                    {title:'操作',dataIndex:'',width:200,renderer : function(value,obj){
+                        var editStr = '<button class="button button-small btn-edit"><i class="icon-edit"></i>编辑</button>',
+                                delStr = '<button class="button button-danger button-small btn-del">删除</button>';//页面操作不需要使用Search.createLink
+                        return editStr + delStr;
+                    }}
+                ],
+                store = Search.createStore('/resource/json/MailSystemAjax/MailSendFromListByPage.do'),
+                gridCfg = Search.createGridCfg(columns,{
+                    tbar : {
+                        items : [
+                            {text : '<i class="icon-remove"></i>批量删除',btnCls : 'button button-small',handler : delFunction}
+                        ]
+                    },
+                    plugins : [editing,BUI.Grid.Plugins.CheckSelection] // 插件形式引入多选表格
+                });
+
+        var search = new Search({
+                    store : store,
+                    gridCfg : gridCfg
+                }),
+                grid = search.get('grid');
+//删除操作
+        function delFunction(){
+            var selections = grid.getSelection();
+            delItems(selections);
+        }
+        function delItems(items){
+            var ids = [];
+            BUI.each(items,function(item){
+                ids.push(item.id);
+            });
+            if(ids.length){
+                BUI.Message.Confirm('确认要删除选中的记录么？',function(){
+                    ids = ids.join(",");
+                    $.ajax({
+                        url : '/resource/json/MailSystemAjax/MailSendFromDelByAddress.do',
+                        dataType : 'json',
+                        data : {ids : ids},
+                        success : function(data){
+                            if(data.success){ //删除成功
+                                search.load();
+                            }else{ //删除失败
+                                BUI.Message.Alert(data.error);
+                            }
+                        }
+                    });
+                },'question');
+            }
+        }
+
+//监听事件，删除一条记录
+        grid.on('cellclick',function(ev){
+            var sender = $(ev.domTarget); //点击的Dom
+            if(sender.hasClass('btn-del')){
+                var record = ev.record;
+                delItems([record]);
+            }
+        });
+    });
+    function sendFromAddressEditSaveSub(record,editor){
+        $.ajax({
+            url:'json/MailSystemAjax/MailSendFromUpdate.do',
+            type:'post',
+            dataType:'json',
+            cache:false,
+            async:false,
+            data:record,
+            success:function(data){
+                if(data.success){
+                    alert("保存成功!");
+                }else{
+                    alert(data.error);
+                }
+                return false;
+            }
+        });
+
+    }
+        $("#receiveAddressAdd button").click(function(){
+            var address = $("#receiveAddressAdd [name=address]").val();
+            if(!address || address==""){
+                return false;
+            }
+            $.ajax({
+                url:'json/MailSystemAjax/MailSendToAdd.do',
+                type:'post',
+                dataType:'json',
+                cache:false,
+                async:false,
+                data:{address:address},
+                success:function(data){
+                    if(data.success){
+                        alert("添加成功！");
+                    }else{
+                        alert(data.error);
+                    }
+                    return false;
+                }
+            });
+            return false;
+
+        });
+        $("#sendAddressAdd button").click(function(){
+            var i= 0,address=$("#sendAddressAdd [name=address]").val(),userName=$("#sendAddressAdd [name=userName]").val(),pass=$("#sendAddressAdd [name=pass]").val(),host=$("#sendAddressAdd [name=host]").val();
+            $.each($(".sendadd input"),function(){
+                if($(this).val()==""){
+                    alert($(this).prev().html()+"不能为空");
+                    return false;
+                }
+                i++;
+            });
+            if(i==$(".sendadd input").length){
+                $.ajax({
+                    url:'json/MailSystemAjax/MailSendFromAdd.do',
+                    type:'post',
+                    dataType:'json',
+                    cache:false,
+                    async:false,
+                    data:{address:address,userName:userName,pass:pass,host:host},
+                    success:function(data){
+                        if(data.success){
+                            alert("添加成功！");
+                        }else{
+                            alert(data.error);
+                        }
+                        return false;
+                    }
+                });
+            }
+            return false;
+        });
+</script>

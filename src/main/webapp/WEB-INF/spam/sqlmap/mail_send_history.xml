@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+        <!DOCTYPE mapper
+                PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+                "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="MailSendHistoryMapper">
+    <resultMap id="MailSendHistoryMapper" type="me.aipa.spam.bean.MailSendHistoryDO">
+        <id column="id" property="id"/>
+        <result column="send_from" property="sendFrom"/>
+        <result column="send_to" property="sendTo"/>
+        <result column="send_time" property="sendTime"/>
+        <result column="state" property="state"/>
+    </resultMap>
+
+    <select id="getMailSendHistoryList" resultMap="MailSendHistoryMapper">
+        SELECT id,send_from,send_to,send_time,state FROM mail_send_history WHERE del=0 ORDER BY id DESC LIMIT #{num}
+    </select>
+    <select id="getMailSendHistoryByState" parameterType="Map" resultMap="MailSendHistoryMapper">
+      SELECT id,send_from,send_to,send_time,state FROM mail_send_history WHERE del=0 AND state=#{state} LIMIT #{num}
+    </select>
+    <delete id="deleteMailSendHistory" parameterType="Date">
+        DELETE FROM mail_send_history
+    </delete>
+</mapper>

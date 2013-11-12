@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="MailSendFromMapper">
+    <resultMap id="MailSendFromMapper" type="me.aipa.spam.bean.MailSendFromDO">
+        <id column="id" property="id"/>
+        <result column="address" property="address"/>
+        <result column="user_name" property="userName"/>
+        <result column="pass" property="pass"/>
+        <result column="host" property="host"/>
+        <result column="success_count" property="successCount"/>
+        <result column="fail_count" property="failCount"/>
+        <result column="last_time" property="lastTime"/>
+        <result column="del" property="del"/>
+    </resultMap>
+
+    <select id="getMailSendFromList" resultMap="MailSendFromMapper">
+        SELECT id,address,user_name,pass,host,success_count,fail_count,last_time,del FROM mail_send_from WHERE del =0 ORDER BY id DESC LIMIT #{start},#{num}
+    </select>
+    <select id="getMailSendFromListRand" resultMap="MailSendFromMapper">
+        SELECT  id,address,user_name,pass,host,success_count,fail_count,last_time,del FROM mail_send_from WHERE del=0 ORDER BY rand() LIMIT #{num}
+    </select>
+    <select id="getMailSendFromCount" resultType="int">
+        SELECT COUNT(id) From mail_send_from WHERE del=0
+    </select>
+    <select id="getMailSendFromByAddress" parameterType="String" resultMap="MailSendFromMapper">
+        SELECT id,address,user_name,pass,host,success_count,fail_count,last_time,del FROM mail_send_from WHERE del = 0 AND address LIKE #{address} ORDER BY id DESC
+    </select>
+    <update id="updateMailSendFrom" parameterType="me.aipa.spam.bean.MailSendFromDO">
+        UPDATE mail_send_from SET address=#{address},user_name=#{userName},pass=#{pass},host=#{host} WHERE id=#{id} AND del=0
+    </update>
+    <select id="checkMailSendFromAddressRepeat" resultType="int">
+        SELECT COUNT(id) FROM mail_send_from WHERE address = #{address} AND del=0
+    </select>
+    <insert id="insertMailSendFrom" parameterType="me.aipa.spam.bean.MailSendFromDO">
+        INSERT INTO mail_send_from (address,user_name,pass,host,success_count,fail_count) VALUES (#{address},#{userName},#{pass},#{host},0,0)
+    </insert>
+    <update id="delMailSendFromById" parameterType="String">
+           UPDATE mail_send_from SET del=1 WHERE id=#{id}
+    </update>
+
+</mapper>
