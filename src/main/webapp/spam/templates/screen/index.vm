@@ -40,7 +40,7 @@
                         {id:'code',text:'首页代码',href:'main/code.html',closeable : false},
                         {id:'main-menu',text:'顶部导航',href:'main/menu.html'},
                         {id:'second-menu',text:'右边菜单',href:'main/second-menu.html'},
-                        {id:'dyna-menu',text:'动态菜单',href:'main/dyna-menu.html'}
+                        {id:'dyna-menu',text:'动态菜单',href:'main/dyna-menu.html'} ,
                     ]
                 },{
                     text:'页面操作',
@@ -64,7 +64,8 @@
                             text:'现有资源',
                             items:[
                                 {id:'code',text:'资源首页',href:'resource/home.html', closeable:false},
-                                {id:'qq',text:'QQ账号',href:'resource/qq.html'}
+                                {id:'qq',text:'QQ账号',href:'resource/qq.html'},
+                                {id:'mail',text:'邮件系统',href:'resource/mailSystem.html'}
                             ]
                         }
                     ]

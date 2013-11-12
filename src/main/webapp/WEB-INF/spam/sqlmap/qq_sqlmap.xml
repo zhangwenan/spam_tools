@@ -12,7 +12,16 @@
 
 
     <select id="getQQList" parameterType="java.util.Map" resultMap="qqAccount">
-        SELECT id,qq,password FROM qq ORDER BY id DESC LIMIT #{from},#{limit}
+        SELECT id,qq,password FROM qq
+        <where>
+            <if test="id != null and id > 0">
+                id=#{id}
+            </if>
+            <if test="qq != null and qq != ''">
+                AND qq=#{qq}
+            </if>
+        </where>
+        ORDER BY id DESC LIMIT #{from},#{limit}
     </select>
 
     <select id="countQQ" resultType="int">
@@ -27,5 +36,9 @@
         #{password}
         )
     </insert>
+
+    <delete id="delQQByQQNumber" parameterType="String">
+        DELETE FROM qq WHERE qq=#{value}
+    </delete>
 
 </mapper>

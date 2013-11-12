@@ -38,4 +38,5 @@
     <!--<bean id="sysConfigService" class="me.aipa.spam.service.impl.SysConfigServiceImpl"></bean>-->
     <!--<bean id="siteConfigService" class="me.aipa.spam.service.impl.SiteConfigServicImpl"></bean>-->
     <bean id="qqService" class="me.aipa.spam.service.impl.QQServiceImpl"></bean>
+    <bean id="mailService" class="me.aipa.spam.service.impl.MailServiceImpl"></bean>
 </beans>

@@ -1,11 +1,11 @@
 <!DOCTYPE HTML>
 <html>
 <head>
-    $control.setTemplate("header.vm")
+   $control.setTemplate("header.vm")
 
 </head>
 <body>
     $screen_placeholder
-##    $control.setTemplate("footer.vm")
+   ## $control.setTemplate("footer.vm")
 </body>
 </html>
