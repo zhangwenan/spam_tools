@@ -15,11 +15,37 @@
     <select id="getMailSendToList" resultMap="MailSendToMapper">
         SELECT id,address,success_count,fail_count,last_time,del FROM mail_send_to WHERE del =0 ORDER BY id DESC LIMIT #{num}
     </select>
+    <!-- 随机取一个收件箱 -->
+      <select id="getMailSendToRand" resultType="me.aipa.spam.bean.MailSendToDO" >
+        SELECT 
+        id,
+        address,
+        success_count successCount,
+        fail_count failCount,
+        last_time lastTime,
+        del
+        FROM mail_send_to 
+        WHERE del =0 
+        ORDER BY last_time ASC 
+        LIMIT 1
+    </select>
+    
     <select id="getMailSendToCount" resultType="int">
         SELECT COUNT(id) FROM mail_send_to WHERE del =0
     </select>
-    <select id="getMailSendToListRand" resultMap="MailSendToMapper">
-        SELECT  id,address,success_count,fail_count,last_time,del FROM mail_send_to WHERE del=0 ORDER BY rand() LIMIT #{num}
+    <select id="getMailSendToListRand" resultMap="MailSendToMapper"  parameterType="java.util.Map">
+        SELECT  
+	        id,
+	        address,
+	        success_count,
+	        fail_count,
+	        last_time,
+	        del 
+        FROM mail_send_to 
+        WHERE 
+        	del=0 
+        ORDER BY last_time ASC 
+        LIMIT #{start},#{num}
     </select>
     <select id="getMailSendToByAddress" resultMap="MailSendToMapper">
         SELECT   id,address,success_count,fail_count,last_time,del FROM mail_send_to WHERE address LIKE #{address} AND del=0
@@ -27,12 +53,24 @@
     <select id="checkMailSendToAddressRepeat" resultType="int">
         SELECT COUNT(id) FROM mail_send_to where address = #{address} and del=0
     </select>
+    
     <update id="delMailSendToById" parameterType="me.aipa.spam.bean.MailSendToDO">
         UPDATE mail_send_to SET del=1 WHERE id=#{id}
     </update>
     <update id="updateMailSendToById" parameterType="me.aipa.spam.bean.MailSendToDO">
         UPDATE mail_send_to SET address=#{address} WHERE id=#{id}
     </update>
+   
+    
+     <!-- 每发送一次邮件 更新last_time ,失败次数-->
+     <update id="updateLastTimeFailById" parameterType="me.aipa.spam.bean.MailSendToDO">
+        UPDATE mail_send_to SET last_time=#{lastTime},fail_count=#{failCount} WHERE id=#{id}
+    </update>
+    <!--  每发送一次邮件 更新last_time ,成功次数 -->
+     <update id="updateLastTimeSuccessById" parameterType="me.aipa.spam.bean.MailSendToDO">
+        UPDATE mail_send_to SET last_time=#{lastTime},success_count=#{successCount} WHERE id=#{id}
+    </update>
+    
    <insert id="insertMailSendTo" parameterType="me.aipa.spam.bean.MailSendToDO">
       INSERT INTO mail_send_to (
                                                   address

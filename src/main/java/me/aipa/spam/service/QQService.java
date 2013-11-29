@@ -22,6 +22,14 @@ public interface QQService {
 
 
     /**
+     * 批量添加QQ
+     * @param qqAccountList
+     * @return
+     */
+    Boolean batchAddQQ(List<QQAccount> qqAccountList);
+
+
+    /**
      * 根据自增长id，来删除QQ账号
      * @param id
      * @return

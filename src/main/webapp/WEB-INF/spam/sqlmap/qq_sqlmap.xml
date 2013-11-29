@@ -45,6 +45,19 @@
         )
     </insert>
 
+    <insert id="batchAddQQ">
+        INSERT INTO qq (qq,password)
+        VALUES
+
+        <foreach collection="list" item="item" index="index" separator=",">
+            (
+            #{item.qq},
+            #{item.password}
+            )
+        </foreach>
+    </insert>
+
+
     <delete id="delQQByQQNumber" parameterType="String">
         DELETE FROM qq WHERE qq=#{value}
     </delete>

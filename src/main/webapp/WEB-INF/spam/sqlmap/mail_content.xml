@@ -11,8 +11,43 @@
         <result column="del" property="del"/>
     </resultMap>
 
-    <select id="getContentList" resultMap="MailContentMapper">
-        SELECT id,title,content,add_time,del FROM mail_content WHERE del=0 ORDER BY id DESC LIMIT #{num}
+    <select id="getContentList" parameterType="java.util.Map" resultMap="MailContentMapper">
+        SELECT id,title,content,add_time,del FROM mail_content
+        <where>
+            del=0
+            <if test="id != null and id > 0">
+                AND id=#{id}
+            </if>
+            <if test="title != null and title != ''">
+                AND title=#{title}
+            </if>
+        </where>
+        ORDER BY id DESC LIMIT #{from},#{limit}
+    </select>
+    <select id="countMailContent" resultType="int">
+        SELECT COUNT(id) FROM mail_content
+        <where>
+            del=0
+            <if test="id != null and id > 0">
+                AND id=#{id}
+            </if>
+            <if test="title != null and title != ''">
+                AND title=#{title}
+            </if>
+        </where>
+    </select>
+    <!-- 随机获取模板DO -->
+        <select id="getMailContentDORand" resultType="me.aipa.spam.bean.MailContentDO" >
+        SELECT 
+	        id,
+	        title,
+	        content,
+	        add_time addTime,
+	        del 
+        FROM mail_content
+        ORDER BY RAND()
+        LIMIT 1
+       
     </select>
 
     <insert id="insertMailContent" parameterType="me.aipa.spam.bean.MailContentDO">

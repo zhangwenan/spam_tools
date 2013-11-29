@@ -1,0 +1,137 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="IpCheckMapper">
+    <resultMap id="getBestIpMap" type="me.aipa.spam.bean.IpCheckDO">
+        <id column="id" property="id"/>
+        <result column="ip" property="ip"/>
+        <result column="speed" property="speed"/>
+        <result column="last_used" property="lastUsed"/>
+        <result column="gmt_created" property="gmtCreated"/>
+        <result column="is_check" property="isCheck"/>
+    </resultMap>
+
+    <select id="getBestIp" resultType="String">
+       SELECT a.ip
+    FROM (select ip,last_used ,speed from ip_check order by  last_used ASC LIMIT 100) a 
+        WHERE a.speed is not null
+        ORDER BY a.speed ASC
+         LIMIT 1
+    </select>
+    
+    
+    <!-- 获取1000条要检测的数据 -->
+    <select id="getIpList" resultMap="getBestIpMap">
+        SELECT a.id,
+         		a.ip,
+         		a.speed,
+         		a.last_used lastUsed,
+         		a.gmt_created gmtCreated,
+         		a.is_check isCheck
+         FROM ip_check a 
+         where a.is_check=0
+         order by a.speed DESC
+        limit 2
+
+    </select>
+     
+    
+    <!-- 根据条件查询IP -->
+     <select id="selectIpList" parameterType="java.util.Map" resultMap="getBestIpMap">
+        SELECT a.id,
+         		a.ip,
+         		a.speed,
+         		a.last_used lastUsed,
+         		a.gmt_created gmtCreated,
+         		a.is_check isCheck
+         FROM ip_check a 
+       <where>
+            <if test="id != null and id > 0">
+                a.id=#{id}
+            </if>
+            <if test="ip != null and ip != ''">
+                AND a.ip=#{ip}
+            </if>
+        </where>
+        order by a.speed DESC
+        LIMIT #{from},#{limit}
+    </select>
+    
+     <select id="countIpCheck" resultType="long">
+        SELECT COUNT(distinct id) 
+        FROM ip_check
+        WHERE
+        is_check=0
+            
+    </select>
+     <select id="countIpAll" resultType="int">
+        SELECT COUNT(distinct id) 
+        FROM ip_check
+        <where>
+            <if test="id != null and id > 0">
+                id=#{id}
+            </if>
+            <if test="ip != null and ip != ''">
+                AND ip=#{ip}
+            </if>
+        </where>
+    </select>
+    <!-- 若中断 则在下次点击继续检测时 只查询未检测过的IP -->
+        <select id="getIpListByIsCheck" parameterType="me.aipa.spam.bean.IpCheckDO" resultMap="getBestIpMap">
+        SELECT a.id,
+         		a.ip,
+         		a.speed,
+         		a.last_used lastUsed,
+         		a.gmt_crested gmtCreated,
+         		a.is_check isCheck
+         FROM ip_check a         
+         WHERE a.is_check=#{isCheck}
+
+    </select>
+    <!-- 检测之后 更新表中的Speed和is_check字段 -->
+    <update id="upateSpeedByIp" parameterType="me.aipa.spam.bean.IpCheckDO">
+        UPDATE ip_check SET speed=#{speed},is_check=#{isCheck} WHERE ip=#{ip}
+    </update>
+    <!-- 使用IP后 更新该IP的最近使用时间 -->
+     <update id="upateLastTimeByIp" parameterType="me.aipa.spam.bean.IpCheckDO">
+        UPDATE ip_check SET last_used=#{lastUsed} WHERE ip=#{ip}
+    </update>
+    
+    <!-- 根据ID删除IP -->
+    <delete id="deleteById" parameterType="java.util.Map">
+       delete from ip_check where id=#{id}
+    </delete>
+    
+    
+    <!-- 当检测无回应时 删除IP -->
+     <delete id="deleteByIp" parameterType="me.aipa.spam.bean.IpCheckDO">
+       delete from ip_check where ip=#{ip}
+    </delete>
+    
+    
+    <!-- 当所有的IP检测完成时 执行 -->
+     <update id="upateAllIsCheck" >
+        UPDATE ip_check SET is_check=0 
+    </update>
+    
+    <!-- 
+    <update id="updateMailSendToById" parameterType="me.aipa.spam.bean.MailSendToDO">
+        UPDATE mail_send_to SET address=#{address} WHERE id=#{id}
+    </update>
+   <insert id="insertMailSendTo" parameterType="me.aipa.spam.bean.MailSendToDO">
+      INSERT INTO mail_send_to (
+                                                  address
+                                                  ,success_count
+                                                  ,fail_count
+                                                  )
+      VALUES
+                                                  (
+                                                  #{address}
+                                                  ,0
+                                                  ,0
+                                                  )
+   </insert>
+ -->
+
+</mapper>

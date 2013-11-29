@@ -18,8 +18,40 @@
     <select id="getMailSendFromList" resultMap="MailSendFromMapper">
         SELECT id,address,user_name,pass,host,success_count,fail_count,last_time,del FROM mail_send_from WHERE del =0 ORDER BY id DESC LIMIT #{start},#{num}
     </select>
-    <select id="getMailSendFromListRand" resultMap="MailSendFromMapper">
-        SELECT  id,address,user_name,pass,host,success_count,fail_count,last_time,del FROM mail_send_from WHERE del=0 ORDER BY rand() LIMIT #{num}
+    <!-- 随机取一个发件箱 -->
+    <select id="getMailSendFromRand" resultType="me.aipa.spam.bean.MailSendFromDO" >
+        SELECT  
+	        id,
+	        address,
+	        user_name userName,
+	        pass,
+	        host,
+	        success_count successCount,
+	        fail_count failCount,
+	        last_time lastTime,
+	        del
+	       
+        FROM mail_send_from
+        WHERE del=0 
+        ORDER BY last_time ASC  
+        LIMIT 1
+    </select>
+    <!-- 随机获取 发件箱 list -->
+    <select id="getMailSendFromListRand" resultMap="MailSendFromMapper" >
+        SELECT  
+	        id,
+	        address,
+	        user_name,
+	        pass,
+	        host,
+	        success_count,
+	        fail_count,
+	        last_time,
+	        del 
+        FROM mail_send_from
+        WHERE del=0 
+        ORDER BY last_time ASC  
+        LIMIT #{limit}
     </select>
     <select id="getMailSendFromCount" resultType="int">
         SELECT COUNT(id) From mail_send_from WHERE del=0
@@ -38,6 +70,15 @@
     </insert>
     <update id="delMailSendFromById" parameterType="String">
            UPDATE mail_send_from SET del=1 WHERE id=#{id}
+    </update>
+    <!-- 每发送一次邮件 更新last_used ,failCount -->
+     <update id="updateLastTimeAndFailCountById" parameterType="me.aipa.spam.bean.MailSendFromDO">
+           UPDATE mail_send_from SET last_time=#{lastTime},fail_count=#{failCount} WHERE id=#{id}
+    </update>
+    
+     <!-- 每发送一次邮件 更新last_used ,SuccessCount -->
+     <update id="updateLastTimeAndSuccessCountById" parameterType="me.aipa.spam.bean.MailSendFromDO">
+           UPDATE mail_send_from SET last_time=#{lastTime},success_count=#{successCount} WHERE id=#{id}
     </update>
 
 </mapper>

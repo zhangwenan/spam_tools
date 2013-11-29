@@ -8,6 +8,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
+import java.net.URLDecoder;
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -94,10 +96,12 @@ public class QQ {
     public void doBatchAddQQ(@Param("qqListStr") String qqListStr){
         try{
             String[] qqList = qqListStr.split("\n");
+            List<QQAccount> qqAccountList = new ArrayList<QQAccount>();
             for(int i=0; i<qqList.length; i++){
                 String[] qqAccountStr = qqList[i].split("/");
-                qqService.addQQ(new QQAccount(qqAccountStr[0], qqAccountStr[1]));
+                qqAccountList.add(new QQAccount(qqAccountStr[0], qqAccountStr[1]));
             }
+            qqService.batchAddQQ(qqAccountList);
             JSONObject r = new JSONObject();
             r.put("success", Boolean.TRUE);
             httpServletResponse.getWriter().write(JSONObject.toJSONString(r));

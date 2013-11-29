@@ -1,0 +1,190 @@
+<div class="container">
+    <div class="row">
+        <form id="searchForm" class="form-horizontal span24">
+            <div class="row">
+                <div class="control-group span8">
+                    <label class="control-label">模板编号：</label>
+                    <div class="controls">
+                        <input type="text" class="control-text" name="id">
+                    </div>
+                </div>
+                <div class="control-group span8">
+                    <label class="control-label">模板标题：</label>
+                    <div class="controls">
+                        <input type="text" class="control-text" name="title">
+                    </div>
+                </div>
+                <div class="span3 offset3">
+                    <button  type="button" id="btnSearch" class="button button-primary">搜索</button>
+                </div>
+            </div>
+        </form>
+    </div>
+    <div class="search-grid-container">
+        <div id="grid"></div>
+    </div>
+
+</div>
+<div id="mailContent" class="hide">
+    <form id="J_Form" class="form-horizontal">
+        <div class="row">
+            <div class="control-group span8">
+                <label class="control-label"><s>*</s>模板标题</label>
+                <div class="controls">
+                    <input name="title" type="grade" data-rules="{required:true}" class="input-normal control-text">
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="control-group span8">
+                <label class="control-label"><s>*</s>模板内容</label>
+                <div class="controls">
+                    <input name="content" type="text" data-rules="{required:true}" class="input-normal control-text">
+                </div>
+            </div>
+        </div>
+    </form>
+</div>
+<script type="text/javascript" src="../assets/js/jquery-1.8.1.min.js"></script>
+<script type="text/javascript" src="../assets/js/bui.js"></script>
+<!--
+ <script type="text/javascript" src="http://localhost/works/bui/assets/js/build/seed-min.js"></script>
+-->
+<script type="text/javascript" src="../assets/js/config-min.js"></script>
+<script type="text/javascript">
+    BUI.use('common/page');
+</script>
+
+<script type="text/javascript">
+BUI.use('common/search',function (Search) {
+
+    var  editing = new BUI.Grid.Plugins.DialogEditing({
+                contentId : 'mailContent', //设置隐藏的Dialog内容
+                triggerCls : 'btn-edit', //触发显示Dialog的样式
+                editor : {
+                    success : function(){ //点击确认的时候触发，可以进行异步提交
+                        var editor = this,
+                                record = editing.get('record'), // 获取编辑的记录
+                                data = editor.getValue(); //编辑完成的记录
+                        editor.valid();
+                        if(editor.isValid()){
+                           saveMailContentSub(BUI.mix(record,data),editor);
+                        }
+                        /*var form = $('#J_Form'); //也可以直接使用表单同步提交的方式
+                        form.submit();
+                        */
+                    }
+                }
+            }),
+            columns = [
+                {
+                    title:'编号',
+                    dataIndex:'id',
+                    width:80,
+                    renderer:function(v){
+                        return Search.createLink({
+                            id : 'detail' + v,
+                            title : '邮件模板id',
+                            text : v,
+                            href : 'resource/MailContentInfo.html'
+                        });
+                    }
+                },
+                {title:'模板标题',dataIndex:'title',width:250},
+                {title:'创建时间',dataIndex:'addTime',width:150},
+                {title:'操作',dataIndex:'',width:200,renderer : function(value,obj){
+                    var editStr =  Search.createLink({ //链接使用 此方式
+                                id : 'edit' + obj.id,
+                                title : '编辑邮件模板',
+                                text : '打开编辑',
+                                href : 'form/example.html'
+                            }),
+                            editStr1 = '<span class="grid-command btn-edit" title="编辑邮件模板">弹出编辑</span>',
+                            delStr = '<span class="grid-command btn-del" title="删除邮件模板">删除</span>';//页面操作不需要使用Search.createLink
+                    return editStr +  editStr1 + delStr;
+                    //return delStr;
+                }}
+            ],
+            store = Search.createStore('/resource/json/mailContent/getMailContent.json'),
+            gridCfg = Search.createGridCfg(columns,{
+                tbar : {
+                    items : [
+                        {text : '<i class="icon-plus"></i>新建',btnCls : 'button button-small',handler:addFunction},
+                        {text : '<i class="icon-remove"></i>删除',btnCls : 'button button-small',handler : delFunction}
+                    ]
+                },
+                plugins : [editing,BUI.Grid.Plugins.CheckSelection] // 插件形式引入多选表格
+            });
+
+    var  search = new Search({
+                store : store,
+                gridCfg : gridCfg
+            }),
+            grid = search.get('grid');
+
+    function addFunction(){
+        var newData = {isNew : true}; //标志是新增加的记录
+        store.addAt(newData,0);
+        editing.edit(newData,'name'); //添加记录后，直接编辑
+    }
+
+    function saveMailContentSub(record,editor){
+        $.ajax({
+            url : '/resource/json/mailContent/saveMailContent.json',
+            dataType : 'json',
+            data : record,
+            success : function(data){
+                if(data.success){ //编辑、新建成功
+                    editor.accept(); //隐藏弹出框
+                    alert("保存成功!");
+                    search.load();
+                }else{ //编辑失败失败
+                    var msg = data.msg;
+                    BUI.Message.Alert('错误原因:' + msg);
+                }
+            }
+        });
+    }
+
+    //删除操作
+    function delFunction(){
+        var selections = grid.getSelection();
+        delItems(selections);
+    }
+
+    function delItems(items){
+        alert(1) ;
+        var ids = [];
+        BUI.each(items,function(item){
+            ids.push(item.id);
+        });
+
+        if(ids.length){
+            BUI.Message.Confirm('确认要删除选中的邮件模板么？',function(){
+                $.ajax({
+                    // /resource/json/qq/delQQ.json
+                    url : '/resource/json/mailContent/delMailContent.json',
+                    dataType : 'json',
+                    data : {"ids" : ids.toString()},
+                    success : function(data){
+                        if(data.success){ //删除成功
+                            search.load();
+                        }else{ //删除失败
+                            BUI.Message.Alert('删除失败！');
+                        }
+                    }
+                });
+            },'question');
+        }
+    }
+
+    //监听事件，删除一条记录
+    grid.on('cellclick',function(ev){
+        var sender = $(ev.domTarget); //点击的Dom
+        if(sender.hasClass('btn-del')){
+            var record = ev.record;
+            delItems([record]);
+        }
+    });
+});
+</script>

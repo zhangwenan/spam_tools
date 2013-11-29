@@ -1,0 +1,108 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="IpGetMapper">
+    <resultMap id="IpGetDOMapper" type="me.aipa.spam.bean.IpGetDO">
+        <id column="id" property="id"/>
+        <result column="url" property="url"/>
+        <result column="detail_regular" property="detailRegular"/>
+        <result column="ip_regular" property="ipRegular"/>
+        <result column="gmt_created" property="gmtCreated"/>
+        <result column="del" property="del"/>
+        <result column="is_done" property="isDone"/>
+        <result column="domain_name" property="domainName"/>
+    </resultMap>
+    
+    <!-- 获取单条url -->
+    <select id="getUrlOne" resultMap="IpGetDOMapper">
+        SELECT id,url,detail_regular,ip_regular,gmt_created,del,is_done,domain_name
+        FROM ip_get 
+        WHERE del = 0 
+        AND is_done = 0
+        ORDER BY id DESC 
+        LIMIT 1
+    </select>
+    
+    <!-- 将数据插入ip_check表 -->
+    <insert id="insertIp" parameterType="java.util.Map">
+    	INSERT INTO ip_check (ip,gmt_created,is_check)
+        VALUES
+        (
+        #{ip},
+        #{gmtCreated},
+        0
+        ) 
+    </insert>
+    
+    <!-- 对已执行的url标记状态为 “1” -->
+    <update id="changeUrlStateDone" parameterType="java.lang.Integer">
+    	update ip_get set is_done = 1 where id = #{id}
+    </update>
+    
+    <!-- 将所有数据标记为未执行 “0” -->
+    <update id="changeUrlStateUnDone">
+    	update ip_get set is_done = 0 where is_done = 1
+    </update>
+    
+    <!-- 对获取不成功的url标记状态为 “1” -->
+    <update id="changeUrlStateDel" parameterType="java.lang.Integer">
+    	update ip_get set del = 1 where id = #{id}
+    </update>
+    
+    <!-- 添加一个ip获取网站url -->
+    <insert id="insertUrl" parameterType="me.aipa.spam.bean.IpGetDO">
+    	INSERT INTO ip_get (url,detail_regular,ip_regular,gmt_created,del,is_done)
+        VALUES
+        (
+        #{url},
+        #{detailRegular},
+        #{ipRegular},
+        #{gmtCreated},
+        0,
+        0,
+        ) 
+    </insert>
+    
+    <!-- 删除网站 -->
+    <delete id="deleteUrl" parameterType="java.lang.Integer">
+    	DELETE FROM ip_get where id = #{id}
+    </delete>
+    
+    <!-- 修改一个网站信息 -->
+    <update id="updateUrl" parameterType="me.aipa.spam.bean.IpGetDO">
+    	update ip_get 
+    	set url = #{url} 
+    		,detail_regular = #{detailRegular}
+    		,ip_regular = #{ipRegular}
+    	where id = #{id}
+    </update>
+    
+    <!-- 通过编号或域名搜索网站 -->
+    <select id="getUrls" parameterType="java.util.Map" resultMap="IpGetDOMapper">
+    	SELECT id,url,detail_regular,ip_regular,gmt_created,del,is_done,domain_name
+        <where>
+            <if test="id != null and id > 0">
+                id=#{id}
+            </if>
+            <if test="domainName != null and domainName != ''">
+                AND domain_name=#{domainName}
+            </if>
+        </where>
+        ORDER BY id DESC LIMIT #{from},#{limit}
+    </select>
+    
+    <!-- 获取页面总条数 -->
+    <select id="getUrlsCount" parameterType="java.util.Map" resultType="java.lang.Integer">
+    	SELECT count(id)
+        <where>
+            <if test="id != null and id > 0">
+                id=#{id}
+            </if>
+            <if test="domainName != null and domainName != ''">
+                AND domain_name=#{domainName}
+            </if>
+        </where>
+    </select>
+
+</mapper>

@@ -66,7 +66,18 @@
                                 {id:'code',text:'资源首页',href:'resource/home.html', closeable:false},
                                 {id:'qq',text:'QQ账号',href:'resource/qq.html'},
                                 {id:'mailSend',text:'发件箱管理',href:'resource/mailSend.html'},
-                                {id:'mailReceive',text:'收件箱管理',href:'resource/mailReceive.html'}
+                                {id:'mailReceive',text:'收件箱管理',href:'resource/mailReceive.html'},
+                            	{id:'mailContext',text:'邮件模板管理',href:'resource/mailContext.html'}
+                            ]
+                        },
+
+                        {
+                            text:'免费IP代理',
+                            items:[
+                                {id:'ipProvider',text:'IP发布网',href:'resource/ipProvider.html'},
+                                {id:'ipProviderMonitor',text:'监控IP发布网',href:'resource/ipProviderMonitor.html'},
+                                {id:'ipProxy',text:'管理IP代理',href:'resource/ipProxy.html'},
+                                {id:'ipMonitor',text:'监控IP代理',href:'resource/ipMonitor.html'}
                             ]
                         }
                     ]
@@ -146,4 +157,4 @@
 ##    系统配置：$index_start_from <br />
 ##    prev:$prevIdList <br />
 ##    next:$nextIdList
-##</div>
+ </div>

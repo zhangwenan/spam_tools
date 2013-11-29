@@ -29,7 +29,9 @@
     <beans:import resource="spam/datasource.xml" />
 
     <beans:import resource="spam/task.xml"/>
-
+    
+    <beans:import resource="spam/mail.xml"/>
+    
     <!-- 表单验证。 -->
     <beans:import resource="spam/form.xml" />
 

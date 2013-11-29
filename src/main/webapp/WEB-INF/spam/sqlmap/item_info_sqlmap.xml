@@ -1,0 +1,168 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="ItemInfoMapper">
+ <resultMap id="ItemTaskMapper" type="me.aipa.spam.bean.ItemDO">
+        <id column="id" property="id"/>
+        <result column="item_id" property="itemId"/>
+        <result column="title" property="title"/>
+        <result column="regprice" property="regprice"/>
+        <result column="regsell" property="regsell"/>
+        <result column="interval_time" property="intervalTime"/>   
+    </resultMap>
+    
+	<!-- 添加商品信息 -->
+	<insert id="insertInfo" parameterType="me.aipa.spam.bean.InfoDO">
+    INSERT INTO info (item_id,sell_num,price,get_time)
+        VALUES
+        (
+        #{itemId},
+        #{sellNum},
+        #{price},
+        #{getTime}
+        ) 
+	</insert>
+	
+	<!-- 删除指定商品信息 -->
+	<delete id="deleteItems" parameterType="java.util.Map">
+		DELETE FROM info 
+		<where>
+            <if test="itemId != null and itemId != ''">
+                item_id = #{itemId}
+            </if>    
+            <if test="timeStart != null and timeStart != ''">
+                AND get_time &gt; #{timeStart}
+            </if>   
+            <if test="timeEnd != null and timeEnd != ''">
+                AND get_time &lt; #{timeEnd}
+            </if>  
+        </where>
+	</delete>
+	
+	 <!-- 查询指定商品信息 -->
+	<select id="getInfoList" parameterType="java.util.Map" resultType="me.aipa.spam.bean.InfoDO">
+		SELECT a.id id,a.item_id itemId,a.sell_num sellNum,a.price price,a.get_time getTime
+		FROM info a, item b
+		<where>
+			a.item_id = b.item_id
+            <if test="itemId != null and itemId != ''">
+               AND a.item_id = #{itemId}
+            </if>
+           <if test="timeStart != null and timeStart != ''">
+                AND a.get_time &gt; #{timeStart}
+            </if>
+            <if test="timeEnd != null and timeEnd != ''">
+                AND a.get_time &lt; #{timeEnd}
+            </if>  
+            <if test="title != null and title != ''">
+                AND b.title like #{title}
+            </if>
+        </where>
+        ORDER BY id DESC LIMIT #{from},#{limit}
+	</select>
+	
+	 <!-- 查询指定商品信息总条数 -->
+	<select id="getInfoListCount" parameterType="java.util.Map" resultType="java.lang.Integer">
+		SELECT count(a.id)
+		FROM info a, item b
+		<where>
+			a.item_id = b.item_id
+            <if test="itemId != null and itemId != ''">
+              	AND  a.item_id = #{itemId}
+            </if>
+           <if test="timeStart != null and timeStart != ''">
+                AND a.get_time &gt; #{timeStart}
+            </if>
+            <if test="timeEnd != null and timeEnd != ''">
+                AND a.get_time &lt; #{timeEnd}
+            </if>  
+            <if test="title != null and title != ''">
+                AND b.title like #{title}
+            </if>
+        </where>
+	</select>
+
+	
+	
+	
+	<!--保存商品任务信息 -->
+   <insert id="insertItem" parameterType="me.aipa.spam.bean.ItemDO">
+		INSERT INTO item (title,item_id,interval_time,regprice,regsell)
+        VALUES
+        (
+        #{title},
+        #{itemId},
+        #{intervalTime},
+        #{regprice},
+        #{regsell}
+        ) 
+	</insert>
+<!-- 获取要执行的商品任务信息 -->
+	<select id="getOneItemDOForTask" resultType="me.aipa.spam.bean.ItemDO" parameterType="String">
+
+	SELECT 
+		id,
+		title,
+		item_id itemId,
+		interval_time intervalTime,
+		regprice,
+		regsell
+	FROM item
+	WHERE item_id=#{itemId}
+	</select>
+	
+	
+	 <!-- 查询指定商品任务信息 -->
+	<select id="getItemList" parameterType="java.util.Map" resultMap="ItemTaskMapper">
+	SELECT 
+		id,
+		title,
+		item_id ,
+		interval_time,
+		regprice,
+		regsell
+		FROM item
+	
+		<where>
+            <if test="itemId != null and itemId != ''">
+                item_id=#{itemId}
+            </if>
+            <if test="title != null and title != ''">
+                AND title like#{title}
+            </if>
+        </where>
+        ORDER BY id DESC 
+       LIMIT #{from},#{limit}
+	</select>
+	
+	 <!-- 查询指定商品任务信息 数量 -->
+	<select id="countItemTask" parameterType="java.util.Map" resultType="int">
+	SELECT  COUNT(distinct id)
+		FROM item
+	
+		<where>
+            <if test="itemId != null and itemId != ''">
+                item_id=#{itemId}
+            </if>
+            <if test="title != null and title != ''">
+                AND title like #{title}
+            </if>
+        </where>
+        ORDER BY id DESC 
+       LIMIT #{from},#{limit}
+	</select>
+	
+		<!-- 删除指定商品任务信息 -->
+	<delete id="deleteItemTask" parameterType="java.util.Map">
+		DELETE FROM item where item_id=#{itemId}
+	</delete>
+	
+		<!-- 更新指定商品任务信息 -->
+	<update id="updateItemTask" parameterType="me.aipa.spam.bean.ItemDO">
+		update item set title=#{title},item_id=#{itemId},interval_time=#{intervalTime},regprice=#{regprice},regsell=#{regsell} where itemId=#{itemId}
+	</update>
+   
+  
+</mapper>

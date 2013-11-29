@@ -1,18 +1,8 @@
 package me.aipa.spam.module.screen;
 
 import com.alibaba.citrus.turbine.Context;
-import com.alibaba.citrus.turbine.dataresolver.Param;
-import com.alibaba.citrus.turbine.dataresolver.Params;
-import me.aipa.spam.bean.MailContentDO;
-import me.aipa.spam.bean.MailSendFromDO;
-import me.aipa.spam.bean.MailSendToDO;
 import me.aipa.spam.service.MailService;
-import org.apache.ibatis.session.SqlSession;
 import org.springframework.beans.factory.annotation.Autowired;
-
-import java.text.SimpleDateFormat;
-import java.util.Date;
-import java.util.List;
 
 /**
  * Created with IntelliJ IDEA.
